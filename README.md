@@ -8,7 +8,7 @@ There are only few reasons to put the string "jndi:" in Request Headers, User Ag
 While the world is hopefully busy patching every implementation of vulnerable Log4j versions, it could be reasonable to slow down attackers as much as possible. So what about serving them some gigabytes of nonsense while they try to exploit your services?</details>
 
 # Disclaimer
-The following code snippets don't protect your devices and services against the Log4Shell 0-Day! Please update vulnerable software or take it offline until there's a patch available! Only use this on servers without Log4j-enabled services!
+The following code snippets don't protect your devices and services against the Log4Shell 0-Day! Please update vulnerable software, use ```log4j2.formatMsgNoLookups=true``` to disable jndi-Lookups or take it offline until there's a patch available! Only use this on servers without Log4j-enabled services! 
 This will also not cover obfuscated calls like ```${${::-j}${::-n}${::-d}${::-i}:${::-l}${::-d}${::-a}${::-p}://${hostName}.}``` or everything else trying to hide the "jndi:" part. As there is no simple solution to that, I won't cover more advanced detection techniques at this time. I still belive that the majority of attacks won't use those so we can still annoy the majority of the script kiddies. :)
 
 # Preparation (adopted from @shipilev)
