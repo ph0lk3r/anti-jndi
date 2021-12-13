@@ -9,6 +9,7 @@ While the world is hopefully busy patching every implementation of vulnerable Lo
 
 # Disclaimer
 The following code snippets don't protect your devices and services against the Log4Shell 0-Day! Please update vulnerable software or take it offline until there's a patch available! Only use this on servers without Log4j-enabled services!
+This will also not cover obfuscated calls like ```${${::-j}${::-n}${::-d}${::-i}:${::-l}${::-d}${::-a}${::-p}://${hostName}.}``` or everything else trying to hide the "jndi:" part. As there is no simple solution to that, I won't cover more advanced detection techniques at this time. I still belive that the majority of attacks won't use those so we can still annoy the majority of the script kiddies. :)
 
 # Preparation (adopted from @shipilev)
 On Linux, create a file with some random HTML message. Please **don't** use the *LOL* from the example below as it makes it easier for the attacker to implement a generic filter to evade us. We're using the *pv* utility to display the progress of the file creation, you might have to install it via your favourite package manager or simply omit it.
