@@ -32,8 +32,8 @@ Enable the required modules
 ```
 a2enmod rewrite headers ratelimit
 ```
-Navigate to /etc/apache2/sites-enabled.
-Open every host configuration file with your favourite editor and insert the following code snippet just above every line containing *</VirtualHost>*
+Navigate to */etc/apache2/sites-enabled*.
+Open every host configuration file with your favourite editor and insert the following code snippet just above every line containing *</VirtualHost>* (there might be more than one)
 ```
 RewriteEngine On
 RewriteCond %{THE_REQUEST} "^.*jndi:.*$"
@@ -75,7 +75,7 @@ If everything went well you should not get an error message.
 # Lighttpd
 Coming soon
 # Testing if everything works
-You can check if you succeeded by connecting to your altered website via curl:
+You can check if you succeeded by connecting to your altered website via curl (remember to replace *your-hostname* with the real hostname of one of the services you just edited:
 ```
 curl -s -L your-hostname -A "\${jndi:testing}" | pv > /dev/null
 ```
