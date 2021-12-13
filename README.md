@@ -63,7 +63,8 @@ allow from allow
 Require all granted
 </Directory>
 ```
-You may wonder why there are so much more variables than in the initial example by @shipilev. I decided to try to catch as many locations as possible. This might interrupt services in some very rare cases so if you want to use the original set of checks, just comment out or delete the first 14 lines after the *RewriteEngine On* statement.
+You may wonder why there are so much more variables than in the initial example by @shipilev. I decided to try to catch as many locations as possible. This might interrupt services in some very rare cases so if you want to use the original set of checks, just comment out or delete the first 7 lines after the *RewriteEngine On* statement and remove the ```|\${\${``` parts of the remaining lines.
+
 You can also put the code into a new file, say /etc/apache2/conf-available/anti-jndi.conf and include it like this:
 ```
 Include /etc/apache2/conf-available/anti-jndi.conf
