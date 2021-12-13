@@ -16,6 +16,7 @@ On Linux, create a file with some random HTML message. Please **don't** use the 
 ```
 $ awk 'BEGIN { for(c=0;c<10000000;c++) printf "<p>LOL</p>" }' > 100M.html
 $ (for I in `seq 1 100`; do cat 100M.html; done) | pv | gzip -9 > 10G.boomgz
+$ rm 100M.html
 ```
 Assuming that your web server runs as *www-data*, let's create a directory owned by *www-data* so we don't have to upload a copy in every webroot that the web server is possibly serving:
 ```
@@ -38,23 +39,23 @@ Open every host configuration file with your favourite editor and insert the fol
 ```
 RewriteEngine On
 RewriteCond %{THE_REQUEST} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{QUERY_STRING} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{REQUEST_URI} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{HTTP_COOKIE} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{HTTP_HOST} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{REMOTE_HOST} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{REMOTE_USER} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{HTTP_USER_AGENT} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 RewriteCond %{HTTP_REFERER} "^.*jndi:.*$"
-RewriteRule . /bombs/10G_lol.boomgz [L]
+RewriteRule . /bombs/10G.boomgz [L]
 <Files ~ "\.boomgz$">
 Header Set Expires "Sat, 1 Jan 2000 00:00:00 GMT"
 Header Set Content-Encoding "gzip"
