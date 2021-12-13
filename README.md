@@ -35,27 +35,21 @@ Enable the required modules
 a2enmod rewrite headers ratelimit
 ```
 Navigate to */etc/apache2/sites-enabled*.
-Open every host configuration file with your favourite editor and insert the following code snippet just above every line containing *</VirtualHost>* (there might be more than one)
+Open every host configuration file with your favourite editor and insert the following code snippet just above every line containing *</VirtualHost>* (there might be more than one):
 ```
 RewriteEngine On
-RewriteCond %{THE_REQUEST} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{QUERY_STRING} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{REQUEST_URI} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{HTTP_COOKIE} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{HTTP_HOST} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{REMOTE_HOST} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{REMOTE_USER} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{HTTP_USER_AGENT} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
-RewriteCond %{HTTP_REFERER} "^.*jndi:.*$"
-RewriteRule . /bombs/10G.boomgz [L]
+
+RewriteCond %{THE_REQUEST} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{QUERY_STRING} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{REQUEST_URI} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{HTTP_COOKIE} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{HTTP_HOST} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{REMOTE_HOST} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{REMOTE_USER} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{HTTP_USER_AGENT} "^.*(\${jndi|\${\${).*$" [OR]
+RewriteCond %{HTTP_REFERER} "^.*(\${jndi|\${\${).*$"
+RewriteRule . /bombs/10G_lol.boomgz [L]
+
 <Files ~ "\.boomgz$">
 Header Set Expires "Sat, 1 Jan 2000 00:00:00 GMT"
 Header Set Content-Encoding "gzip"
@@ -63,12 +57,17 @@ Header Set Content-Type "text/html"
 SetOutputFilter RATE_LIMIT
 SetEnv rate-limit 100
 </Files>
+
 <Directory /bombs>
 allow from allow
 Require all granted
 </Directory>
 ```
 You may wonder why there are so much more variables than in the initial example by @shipilev. I decided to try to catch as many locations as possible. This might interrupt services in some very rare cases so if you want to use the original set of checks, just comment out or delete the first 14 lines after the *RewriteEngine On* statement.
+You can also put the code into a new file, say /etc/apache2/conf-available/anti-jndi.conf and include it like this:
+```
+Include /etc/apache2/conf-available/anti-jndi.conf
+```
 Now save the file(s) and reload the Apache2 configuration:
 ```
 systemctl reload apache2
